@@ -26,6 +26,8 @@
     "webpack-merge": "^5.10.0"
   },
   "devDependencies": {
+    "hide-terminal-cursor": "^0.0.1",
+    "show-terminal-cursor": "^0.0.2",
     "webpack-cli": "^5.1.4"
   }
 }
