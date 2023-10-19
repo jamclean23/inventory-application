@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/loginAssets/login.js"></script>
+    <title>Login - Cheese Inventory</title>
+</head>
+<body>
+    <form method="POST" action="/login/handleLoginRequest.js">
+        <div>
+            <label for="username" >Username</label>
+            <input id="username" name="username" type="text"/>
+        </div>
+        <div>
+            <label for="password" >Password</label>
+            <input id="password" name="password" type="password"/>
+        </div>
+        <input name="requestedPath" id="pathMeta" type="text" hidden="true" aria-hidden="true"/>
+        <button>Login</button>
+    </form>
+</body>
+</html>

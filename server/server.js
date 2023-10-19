@@ -10,9 +10,18 @@ const path = require('path');
 const bodyParser = require('body-parser');
 require('dotenv').config({ path: './config/.env'});
 
-// Controllers
+// Routes
+const homepageRoute = require('./routes/homepageRoute.js');
+const testRoute = require('./routes/testRoute.js');
+const loginRoute = require('./routes/loginRoute.js');
 
-const fourOhFour = require('./controllers/fourOhFour.js');
+// Controller
+const fourOhFourController = require('./controllers/fourOhFourController.js');
+const loginHandler = require('./middleware/loginHandler/loginHandler.js');
+
+// Session
+const cookieParser = require('cookie-parser'); 
+const sessions = require('express-session');
 
 
 // ====== SETUP ======
@@ -25,18 +34,34 @@ app.set('views', path.join(__dirname, './views'));
 
 // ====== MIDDLEWARE ======
 
-app.use(express.static('public'));
+app.use((req, res, next) => {
+    console.log('PATH: ' + req.url);
+    next();
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    resave: false
+}));
+app.use(cookieParser());
+
+app.use(loginHandler);
+
+
 // ====== ROUTES ======
 
-app.get('/', (req, res) => {
-    res.send('blah');
-})
-
-app.get('*', fourOhFour);
+app.use('/', homepageRoute);
+app.use('/test', testRoute);
+app.use('/login', loginRoute);
+app.use('*', fourOhFourController);
 
 
 // ====== LISTENERS ======
