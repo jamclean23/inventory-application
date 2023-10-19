@@ -9,6 +9,8 @@ function loginHandler (req, res, next) {
             next();
         } else if (/\/login*([login.js]|[handleLoginRequest.js])/.test(req.path)) {
             res.redirect('/login');
+        } else {
+            res.redirect('/login');
         }
     } else {
         console.log('credentials found');
