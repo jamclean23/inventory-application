@@ -1,0 +1,20 @@
+body {
+    background-image: url('../assets/images/cheeseImg.webp');
+    margin:0;
+    padding: 0;
+}
+
+nav {
+    background-color: rgba(0,0,0,.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    color: white;
+}
+
+#logoutWrapper {
+    padding-inline: 1rem;
+}

@@ -16,7 +16,7 @@ main();
 
 function main () {
 
-    console.log('test10');
+    console.log('test7');
     addListeners();
 }
 
