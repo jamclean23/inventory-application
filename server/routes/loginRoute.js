@@ -11,6 +11,7 @@ const controller = require('../controllers/loginController.js');
 
 // ====== ROUTES ======
 
+router.get('/handleLogoutRequest', controller.handleLogoutRequest);
 router.get('/', controller.page);
 router.post('/handleLoginRequest.js', controller.handleLoginRequest);
 router.get('/*', controller.page);

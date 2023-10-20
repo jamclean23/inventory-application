@@ -5,10 +5,9 @@
 function loginHandler (req, res, next) {
     if (!req.session.userid) {   
         console.log('\nCredentials not found, using login handler');
-        console.log('Path of request: ' + req.url);
         if (/\/login/.test(req.path)) {
             next();
-        } else if (/\/login*([login.js]|[handleLoginRequest.js])/.test(req.path)) {
+        } else if (/\/login*([login.js]|[handleLoginRequest.js]|[handleLogoutRequest])/.test(req.path)) {
             res.redirect('/login' + req.path);
         } else {
             res.redirect('/login' + req.path);

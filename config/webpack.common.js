@@ -2,12 +2,14 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        '/index/index': './src/index/index.js',
+        '/login/login': './src/login/login.js',
+        '/homepage/homepage': './src/homepage/homepage.js',
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, '../dist'),
-        clean: true
+        clean: true,
+        assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     module: {
         rules: [

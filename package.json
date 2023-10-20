@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "buildDev": "webpack --config ./config/webpack.dev.js && cp ./dist/index/index.js .server/public/index/index.js",
-    "buildProd": "webpack --config ./config/webpack.prod.js",
+    "buildDev": "webpack --config ./config/webpack.dev.js && cp -r ./dist/* ./server/public/",
+    "buildProd": "webpack --config ./config/webpack.prod.js && cp -r ./dist/* ./server/public/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server/server.js"
   },
@@ -29,8 +29,10 @@
     "webpack-merge": "^5.10.0"
   },
   "devDependencies": {
+    "css-loader": "^6.8.1",
     "hide-terminal-cursor": "^0.0.1",
     "show-terminal-cursor": "^0.0.2",
+    "style-loader": "^3.3.3",
     "webpack-cli": "^5.1.4"
   }
 }

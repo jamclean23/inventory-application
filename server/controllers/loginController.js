@@ -30,11 +30,19 @@ function notFound (req, res, next) {
     res.send('Login route not found');
 }
 
+function handleLogoutRequest (req, res, next) {
+
+    // Remove session cookie and redirect to login page
+    req.session.destroy();
+    console.log('LOGGING OUT');
+    res.redirect('/login');
+}
 
 // ====== EXPORTS ======
 
 module.exports = {
     page,
     handleLoginRequest,
+    handleLogoutRequest,
     notFound
 }
