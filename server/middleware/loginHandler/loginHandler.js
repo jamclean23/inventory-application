@@ -3,6 +3,7 @@
 // ====== FUNCTIONS ======
 
 function loginHandler (req, res, next) {
+    console.log('CHECKING CREDENTIALS');
     if (!req.session.userid) {   
         console.log('\nCredentials not found, using login handler');
         if (/\/login/.test(req.path)) {
@@ -14,7 +15,12 @@ function loginHandler (req, res, next) {
         }
     } else {
         console.log('credentials found');
-        next();
+
+        if (/\/login*/.test(req.path)) {
+            res.redirect('/');
+        } else {
+            next();
+        }
     }
 }
 
