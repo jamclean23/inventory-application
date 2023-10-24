@@ -17,12 +17,19 @@ function handleLoginRequest (req, res, next, whitelist = testWhitelist) {
     console.log(req.body);
 
     if (req.body.password === whitelist[req.body.username]) {
+        console.log('\x1b[33m**********\x1b[37m');
         console.log('Login Successful');
         req.session.userid = req.body.username;
+        console.log('Attempted path: ' + req.body.requestedPath);
         res.redirect(req.body.requestedPath);
     } else {
+        console.log('\x1b[33m**********\x1b[37m');  
         console.log('Login Unsuccessful');
-        res.send('Login Unsuccessful');
+        console.log('Attempted path:' + req.body.requestedPath);
+        res.render('login', {
+            loginErrorMsg: 'Username/Password not found.<br/>Contact administrator to resolve.',
+            passedPath: req.body.requestedPath
+        });
     }
 }
 

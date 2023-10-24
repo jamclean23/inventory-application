@@ -13,7 +13,7 @@ const controller = require('../controllers/loginController.js');
 
 router.get('/handleLogoutRequest', controller.handleLogoutRequest);
 router.get('/', controller.page);
-router.post('/handleLoginRequest.js', controller.handleLoginRequest);
+router.post('/handleLoginRequest', controller.handleLoginRequest);
 router.get('/*', controller.page);
 
 

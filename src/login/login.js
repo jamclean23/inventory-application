@@ -18,5 +18,8 @@ setPath();
 function setPath () {
     const path = window.location.pathname.replace('/login', '');
     const pathInput = document.querySelector('#pathMeta');
-    pathInput.value = path || '/';
+
+    if (!pathInput.value) {
+        pathInput.value = path || '/';
+    }
 }
