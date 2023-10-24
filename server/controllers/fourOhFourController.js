@@ -1,7 +1,8 @@
 // Controller for 404
 
 function fourOhFour (req, res) {
-    res.send('Oops, page not found');
+    res.set();
+    res.status(404).send('Oops, page not found');
 }
 
 module.exports = fourOhFour;

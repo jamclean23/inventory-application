@@ -14,6 +14,7 @@ require('dotenv').config({ path: './config/.env'});
 const homepageRoute = require('./routes/homepageRoute.js');
 const testRoute = require('./routes/testRoute.js');
 const loginRoute = require('./routes/loginRoute.js');
+const dbQueryRoute = require('./routes/dbQueryRoute.js');
 
 // Controller
 const fourOhFourController = require('./controllers/fourOhFourController.js');
@@ -61,6 +62,7 @@ app.use(loginHandler);
 app.use('/', homepageRoute);
 app.use('/test', testRoute);
 app.use('/login', loginRoute);
+app.use('/db_query', dbQueryRoute);
 app.use('*', fourOhFourController);
 
 

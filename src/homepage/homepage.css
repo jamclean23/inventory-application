@@ -62,6 +62,15 @@ main {
     overflow-y: auto;
 }
 
-.test {
-    min-height: 200vh;
+.cheeseCard {
+    background-color: white;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0,0,0,.2);
+}
+
+.infoCard {
+    text-align: center;
+    margin-top: 1rem;
 }
