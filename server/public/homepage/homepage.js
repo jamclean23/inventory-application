@@ -20,8 +20,41 @@ function main() {
   populateCheeses();
 }
 async function populateCheeses() {
+  showLoading();
   const cheesesObj = await findAll();
+  hideLoading();
   createCheeseElements(cheesesObj);
+}
+function showLoading() {
+  const loading = document.createElement('div');
+  loading.classList.add('loadingSpinner');
+  loading.innerText = `Loading`;
+  document.querySelector('.cheesesContent').appendChild(loading);
+  updateSpinner();
+}
+async function updateSpinner(dots = 0) {
+  const spinner = document.querySelector('.loadingSpinner');
+  if (spinner) {
+    await timer();
+    console.log('tick');
+    if (dots > 3) {
+      spinner.innerText = 'Loading';
+    } else {
+      spinner.innerText += '.';
+    }
+    updateSpinner(++dots);
+  } else {
+    return;
+  }
+  function timer() {
+    return new Promise(resolve => {
+      setTimeout(resolve, 500);
+    });
+  }
+}
+function hideLoading() {
+  const loading = document.querySelector('.loadingSpinner');
+  loading.remove();
 }
 function createCheeseElements(cheesesObj) {
   const cheesesContent = document.querySelector('.cheesesContent');
