@@ -16,7 +16,9 @@ function loginHandler (req, res, next) {
     } else {
         console.log('credentials found');
 
-        if (/\/login*[handleLogoutRequest]/.test(req.path)) {
+        if (/\/login*/.test(req.path) && !(req.path.includes('handleLogoutRequest'))) {
+            console.log(req.path);
+            console.log('redirecting home');
             res.redirect('/');
         } else {
             next();
