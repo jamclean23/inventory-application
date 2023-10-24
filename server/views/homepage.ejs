@@ -8,7 +8,7 @@
     <title>Home - Cheese Inventory</title>
 </head>
 <body>
-    <nav>
+    <header>
         <div>
 
         </div>
@@ -16,6 +16,43 @@
         <div id="logoutWrapper">
             <button id="logoutBtn">Logout</button>
         </div>
-    </nav>
+    </header>
+    <main>
+        <div class="mainContent">
+
+            <nav class="mainContentNav">
+
+                <div class="navItemWrapper">
+
+                    <span>Keyword:</span>
+                    <input type="text"/>
+                </div>
+
+                <div class="navItemWrapper">
+                    <label for="sort">Sort by:</label>
+                    <select id="sort">
+                        <option value="category">Category</option>
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                        <option value="region">Region</option>
+                        <option value="stock">Stock</option>
+                        <option value="weight">Weight</option>
+                    </select>
+
+                    <select id="sortOrder">
+                        <option value="ascending">⭡</option>
+                        <option value="descending">⭣</option>
+                    </select>
+                </div>
+
+                <button>Apply</button>
+
+            </nav>
+
+            <section class="cheesesContent">
+                <div class="test"></div>
+            </section>
+        </div>
+    </main>
 </body>
 </html>
