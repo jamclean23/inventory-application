@@ -18,10 +18,6 @@ async function find (req, res) {
         sortBy = 'country_of_origin';
     }
 
-    console.log(`SORTBY: ${sortBy}`);
-    console.log(`SORTDIRECTION: ${sortDirection}`);
-    console.log(`KEYWORD: ${keyword}`);
-
     const client = new MongoClient(process.env.MONGO_CONNECT);
 
     const pipeline = [
@@ -48,14 +44,12 @@ async function find (req, res) {
         pipeline.unshift(searchQuery);
     }
 
-    console.dir(pipeline);
 
     try {
         const db = client.db('inventory');
         const cheeses = db.collection('cheeses');
 
         const cheeseArray = await cheeses.aggregate(pipeline).toArray();
-
 
         res.send(cheeseArray);
     } catch (err) {
@@ -71,11 +65,15 @@ async function add (req, res) {
     
     try {
 
+        res.status(200).send({
+            "docAdded": true
+        });
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send({
+            "docAdded": false
+        });
     } finally {
         client.close();
-        res.status(400).send();
     }
 }
 

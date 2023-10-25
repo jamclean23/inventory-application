@@ -12,6 +12,7 @@
 <body>
 
     <header>
+        <div></div>
         <h1>OOPS ALL CHZ</h1>
         <div id="logoutWrapper">
             <button id="logoutBtn">Logout</button>
@@ -20,16 +21,16 @@
 
     <main>
         <div class="mainContent">
-
+            
             <nav class="mainContentNav">
-
+                
                 <button class="addBtn">
                     <svg class="addIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </button>
                 <div class="paramWrapper">
-
+                    
                     <div class="navItemWrapper">
                         <label for="keyword" >Keyword:</label>
                         <input id="keyword"  type="text"/>
@@ -55,12 +56,53 @@
                     </div>
                     
                 </div>
-                 
-                </nav>
                 
+            </nav>
+            
             <section class="cheesesContent">
             </section>
         </div>
     </main>
+    <div class="modalWrapper">
+        <div class="modal">
+            <form id="modalForm" onsubmit="return false">
+
+                <h2>Add a New Cheese</h2>
+
+                <div class="inputWrapper">
+                    <label for="cheeseName">Cheese Name</label>
+                    <input id="cheeseName" type="text" placeholder="Cheese Name"/>
+                </div>
+
+                <div class="inputWrapper"> 
+                    <label for="cheeseDescription">Description</label>
+                    <textarea id="cheeseDescription"></textarea>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="cheeseCategory">Category</label>
+                    <input id="cheeseCategory" type="text" placeholder="Category"/>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="cheesePrice">Price per unit (in dollars)</label>
+                    <input id="cheesePrice" type="number"/>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="cheeseRegion">Country of origin</label>
+                    <input id="cheeseRegion" type="text" placeholder="Country"/>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="cheeseWeight">Weight per unit</label>
+                    <input id="cheeseWeight" type="number"/>
+                </div>
+
+                <button id="modalSubmit">Submit</button>
+
+            </form>
+        </div>
+    </div>
 </body>
 </html>

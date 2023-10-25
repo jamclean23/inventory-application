@@ -195,13 +195,24 @@ function getNavHeight () {
 }
 
 function addListeners () {
+
+    // Buttons
     const logoutBtn = document.querySelector('#logoutBtn');
     logoutBtn.addEventListener('click', handleLogoutClick);
 
     const applyBtn = document.querySelector('#applyBtn');
     applyBtn.addEventListener('click', handleApplyClick);
 
+    const addBtn = document.querySelector('.addBtn');
+    addBtn.addEventListener('click', handleAddClick);
+
+    // Resize
     window.addEventListener('resize', handleResize);
+}
+
+async function handleAddClick () {
+    const addModalWrapper = document.querySelector('.modalWrapper');
+    addModalWrapper.style.display = 'flex';
 }
 
 async function handleApplyClick () {
