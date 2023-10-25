@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, './views'));
 // ====== MIDDLEWARE ======
 
 app.use((req, res, next) => {
-    console.log('\n\x1B[34m********\nNew Server Request\nPATH: ' + req.url + '\n\x1B[37m');
+    console.log('\n\x1B[34m********\nNew Server Request\nPATH: ' + req.url + '\x1B[37m');
     next();
 });
 

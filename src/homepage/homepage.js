@@ -7,6 +7,11 @@
 import './homepage.css'
 
 
+// ====== STATE ======
+
+let spinning = false;
+
+
 // ====== MAIN =======
 
 main();
@@ -22,12 +27,39 @@ function main () {
 
 async function populateCheeses () {
     showLoading();
-    const cheesesObj = await findAll();
+    const cheesesObj = await find();
     hideLoading();
     createCheeseElements(cheesesObj);
 }
 
+async function updateCheeses () {
+    clearCheeses();
+    showLoading();
+
+    // Navbar elements
+    const category = document.querySelector('#sort');
+    const sortOrder = document.querySelector('#sortOrder');
+    const keyword = document.querySelector('#keyword');
+
+    const cheesesObj = await find(category.value, sortOrder.value, keyword.value);
+
+    createCheeseElements(cheesesObj);
+    
+    hideLoading();
+}
+
+function clearCheeses () {
+    const cheesesContent = document.querySelector('.cheesesContent');
+    cheesesContent.innerHTML = '';
+}
+
 function showLoading () {
+
+    if (spinning) {
+        hideLoading();
+    }
+
+    spinning = true;
     const loading = document.createElement('div');
     loading.classList.add('loadingSpinner');
     loading.innerText = `Loading`;
@@ -36,17 +68,21 @@ function showLoading () {
 }
 
 async function updateSpinner (dots = 0) {
-
+    if (!spinning) {
+        return;
+    }
     const spinner = document.querySelector('.loadingSpinner');
 
     if (spinner) {
         await timer();
-        console.log('tick');
-        if (dots > 3) {
-            spinner.innerText = 'Loading';
+
+        if (dots > 2) {
+            spinner.innerText = 'Loading.';
+            dots = 0;
         } else {
             spinner.innerText += '.';
         }
+        
         updateSpinner(++dots);
     } else {
         return
@@ -59,8 +95,11 @@ async function updateSpinner (dots = 0) {
 }
 
 function hideLoading() {
+    spinning = false;
     const loading = document.querySelector('.loadingSpinner');
-    loading.remove();
+    if (loading) {
+        loading.remove();
+    }
 }
 
 function createCheeseElements (cheesesObj) {
@@ -142,11 +181,29 @@ function addListeners () {
 }
 
 async function handleApplyClick () {
-    
+
+    const applyBtn = document.querySelector('#applyBtn');
+    applyBtn.disabled = true;
+
+    await updateCheeses();
+
+    applyBtn.disabled = false;
 }
 
-async function findAll () {
-    const results = await fetch('/db_query/find_all');
+async function find (sortBy = 'name', sortDirection = 'ascending', keyword = '') {
+
+    const parameters = JSON.stringify({
+        "sortBy": sortBy,
+        "sortDirection": sortDirection,
+        "keyword": keyword
+    });
+
+    const results = await fetch('/db_query/find', {
+        method: "GET",
+        headers: {
+            parameters
+        }
+    });
     const cheesesObj = await results.json();
     return cheesesObj;
 }

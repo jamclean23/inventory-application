@@ -3,9 +3,9 @@
 // ====== FUNCTIONS ======
 
 function loginHandler (req, res, next) {
-    console.log('CHECKING CREDENTIALS');
+    // console.log('CHECKING CREDENTIALS');s
     if (!req.session.userid) {   
-        console.log('\nCredentials not found, using login handler');
+        // console.log('\nCredentials not found, using login handler');
         if (/\/login/.test(req.path)) {
             next();
         } else if (/\/login*([login.js]|[handleLoginRequest]|[handleLogoutRequest])/.test(req.path)) {
@@ -14,11 +14,9 @@ function loginHandler (req, res, next) {
             res.redirect('/login' + req.path);
         }
     } else {
-        console.log('credentials found');
+        // console.log('credentials found');
 
         if (/\/login*/.test(req.path) && !(req.path.includes('handleLogoutRequest'))) {
-            console.log(req.path);
-            console.log('redirecting home');
             res.redirect('/');
         } else {
             next();
