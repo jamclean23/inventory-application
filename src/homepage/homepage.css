@@ -22,15 +22,12 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-inline: 1rem;
 }
 
 h1 {
     color: white;
     font-size: 1.5rem;
-}
-
-#logoutWrapper {
-    padding-inline: 1rem;
 }
 
 main {
@@ -45,11 +42,17 @@ main {
 .mainContentNav {
     background-color: rgba(0,0,0,.5);
     display: flex;
-    color: white;
-    padding: .25rem 1rem;
-    gap: 1rem;
-    justify-content: flex-end;
     margin-top: .5rem;
+    padding: .25rem 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.paramWrapper {
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
@@ -88,4 +91,34 @@ main {
 
 .loadingSpinner {
     text-align: center;
+}
+
+.buttonsDiv {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.editBtn, .removeBtn {
+    min-height: 1.7rem;
+    min-width: 1.7rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.addBtn {
+    min-height: 2.2rem;
+    min-width: 2.2rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.editImg, .closeIcon, .addIcon {
+    height: 100%;
 }

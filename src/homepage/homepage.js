@@ -6,6 +6,9 @@
 // Css
 import './homepage.css'
 
+// Icons
+import editSvg from '../assets/icons/edit.svg';
+import xSvg from '../assets/icons/x.svg';
 
 // ====== STATE ======
 
@@ -44,7 +47,7 @@ async function updateCheeses () {
     const cheesesObj = await find(category.value, sortOrder.value, keyword.value);
 
     createCheeseElements(cheesesObj);
-    
+
     hideLoading();
 }
 
@@ -145,6 +148,27 @@ function createCheeseElements (cheesesObj) {
         const id = document.createElement('p');
         id.innerText = `Item Id: ${cheese._id}`;
         newCard.appendChild(id);
+
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.classList.add('buttonsDiv');
+        newCard.appendChild(buttonsDiv);
+
+        const editBtn = document.createElement('button');
+        editBtn.classList.add('editBtn');
+        const editIcon = document.createElement('img');
+        editIcon.src = editSvg;
+        editIcon.classList.add('editImg');
+        editBtn.appendChild(editIcon);
+        buttonsDiv.appendChild(editBtn);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.classList.add('removeBtn');
+        const closeIcon = document.createElement('img');
+        closeIcon.src = xSvg;
+        closeIcon.classList.add('closeIcon');
+        removeBtn.appendChild(closeIcon);
+        buttonsDiv.appendChild(removeBtn);
+
 
 
         cheesesContent.appendChild(newCard);

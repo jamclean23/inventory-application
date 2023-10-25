@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,47 +8,56 @@
     <link rel="stylesheet" href="/homepage/homepage.css">
     <title>Home - Cheese Inventory</title>
 </head>
-<body>
-    <header>
-        <div>
 
-        </div>
+<body>
+
+    <header>
         <h1>OOPS ALL CHZ</h1>
         <div id="logoutWrapper">
             <button id="logoutBtn">Logout</button>
         </div>
     </header>
+
     <main>
         <div class="mainContent">
 
             <nav class="mainContentNav">
 
-                <div class="navItemWrapper">
-                    <label for="keyword" >Keyword:</label>
-                    <input id="keyword"  type="text"/>
+                <button class="addBtn">
+                    <svg class="addIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+                <div class="paramWrapper">
+
+                    <div class="navItemWrapper">
+                        <label for="keyword" >Keyword:</label>
+                        <input id="keyword"  type="text"/>
+                    </div>
+
+                    <div class="navItemWrapper">
+                        <label for="sort">Sort by:</label>
+                        <select id="sort">
+                            <option value="category">Category</option>
+                            <option value="name" selected>Name</option>
+                            <option value="price">Price</option>
+                            <option value="region">Region</option>
+                            <option value="stock">Stock</option>
+                            <option value="weight">Weight</option>
+                        </select>
+                        
+                        <select id="sortOrder">
+                            <option value="ascending">↑</option>
+                            <option value="descending">↓</option>
+                        </select>
+                        
+                        <button id="applyBtn">Apply</button>
+                    </div>
+                    
                 </div>
-
-                <div class="navItemWrapper">
-                    <label for="sort">Sort by:</label>
-                    <select id="sort">
-                        <option value="category">Category</option>
-                        <option value="name" selected>Name</option>
-                        <option value="price">Price</option>
-                        <option value="region">Region</option>
-                        <option value="stock">Stock</option>
-                        <option value="weight">Weight</option>
-                    </select>
-
-                    <select id="sortOrder">
-                        <option value="ascending">↑</option>
-                        <option value="descending">↓</option>
-                    </select>
-                </div>
-
-                <button id="applyBtn">Apply</button>
-
-            </nav>
-
+                 
+                </nav>
+                
             <section class="cheesesContent">
             </section>
         </div>

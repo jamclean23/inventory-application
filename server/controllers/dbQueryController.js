@@ -10,7 +10,7 @@ require('dotenv').config();
 
 // ====== FUNCTIONS ======
 
-async function find(req, res) {
+async function find (req, res) {
 
     let { sortBy, sortDirection, keyword } = JSON.parse(req.get("parameters"));
 
@@ -60,9 +60,48 @@ async function find(req, res) {
         res.send(cheeseArray);
     } catch (err) {
         console.log(err);
-        res.send({});
+        res.status(400).send({});
     } finally {
        await client.close();
+    }
+}
+
+async function add (req, res) {
+    const client = new MongoClient(process.env.MONGO_CONNECT);
+    
+    try {
+
+    } catch (err) {
+        res.status(400).send();
+    } finally {
+        client.close();
+        res.status(400).send();
+    }
+}
+
+async function remove (req, res) {
+    const client = new MongoClient(process.env.MONGO_CONNECT);
+
+    try {
+
+    } catch (err) {
+        res.status(400).send();
+    } finally {
+        client.close();
+        res.status(400).send();
+    }
+}
+
+async function update (req, res) {
+    const client = new MongoClient(process.env.MONGO_CONNECT);
+
+    try {
+
+    } catch (err) {
+        res.status(400).send();
+    } finally {
+        client.close();
+        res.status(400).send();
     }
 }
 
@@ -70,5 +109,8 @@ async function find(req, res) {
 // ====== EXPORTS ======
 
 module.exports = {
-    find
+    find,
+    add,
+    remove,
+    update
 }
