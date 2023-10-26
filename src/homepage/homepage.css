@@ -136,7 +136,8 @@ main {
     display: none;
 }
 
-.modal {
+.addModal {
+    display: none;
     flex: 1;
     background-color: white;
     max-width: 40rem;

@@ -206,13 +206,54 @@ function addListeners () {
     const addBtn = document.querySelector('.addBtn');
     addBtn.addEventListener('click', handleAddClick);
 
+    const addModalSubmitBtn = document.querySelector('#addModalSubmit');
+    addModalSubmitBtn.addEventListener('click', handleAddModalSubmitClick);
+
     // Resize
     window.addEventListener('resize', handleResize);
 }
 
+async function handleAddModalSubmitClick () {
+    const fields = getAddModalFields();
+    console.log(fields);
+
+    hideAddModal();
+}
+
+function getAddModalFields () {
+    return {
+        name: document.querySelector('#cheeseName').value,
+        description: document.querySelector('#cheeseDescription').value,
+        category: document.querySelector('#cheesePrice').value,
+        region: document.querySelector('#cheeseRegion').value,
+        weight: document.querySelector('#cheeseWeight').value
+    }
+}
+
 async function handleAddClick () {
+    showAddModal();
+}
+
+function showAddModal () {
+    showModalWrapper();
+    const addModal = document.querySelector('.addModal');
+    addModal.style.display = 'inline';
+}
+
+function hideAddModal () {
+    const addModal = document.querySelector('.addModal');
+    addModal.style.display = 'none';    
+    hideModalWrapper();
+}
+
+function showModalWrapper () {
     const addModalWrapper = document.querySelector('.modalWrapper');
     addModalWrapper.style.display = 'flex';
+}
+
+function hideModalWrapper () {
+    const addModalWrapper = document.querySelector('.modalWrapper');
+    addModalWrapper.style.display = 'none';
 }
 
 async function handleApplyClick () {
