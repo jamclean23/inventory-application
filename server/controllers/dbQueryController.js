@@ -5,6 +5,10 @@
 
 const { MongoClient } = require('mongodb');
 
+const mongoose = require('mongoose');
+
+const CheeseModel = require('../schema/cheeseSchema.js');
+
 require('dotenv').config();
 
 
@@ -61,9 +65,24 @@ async function find (req, res) {
 }
 
 async function add (req, res) {
-    const client = new MongoClient(process.env.MONGO_CONNECT);
-    
+    const cheese = JSON.parse(req.get('fields'));
+
+    console.log('CHEESE');
+    console.log(cheese);
+
     try {
+        await mongoose.connect(process.env.MONGO_CONNECT_INVENTORY);
+        const model = new CheeseModel({
+            name: cheese.name,
+            description: cheese.description,
+            category: cheese.category,
+            price: cheese.price,
+            country_of_origin: cheese.region,
+            weight: cheese.weight,
+            stock: cheese.stock
+        });
+
+        await model.save();
 
         res.status(200).send({
             "docAdded": true
@@ -73,7 +92,7 @@ async function add (req, res) {
             "docAdded": false
         });
     } finally {
-        client.close();
+        mongoose.connection.close();
     }
 }
 

@@ -10,13 +10,34 @@ const { Schema, model } = require('mongoose');
 // ====== SCHEMA ======
 
 const cheeseSchema = new Schema({
-    name: String,
-    description: String,
-    category: String,
-    price: Number,
-    country_of_origin: String,
-    weight: Number,
-    stock: Number
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    country_of_origin: {
+        type: String,
+        required: true
+    },
+    weight: {
+        type: Number,
+        required: true
+    },
+    stock: {
+        type: Number,
+        required: true
+    }
 },
 {
     collection: 'cheeses'

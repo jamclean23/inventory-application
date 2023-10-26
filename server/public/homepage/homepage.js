@@ -215,13 +215,67 @@ function addListeners() {
   const addModalSubmitBtn = document.querySelector('#addModalSubmit');
   addModalSubmitBtn.addEventListener('click', handleAddModalSubmitClick);
 
+  // Fields
+  setFieldsEventListeners();
+
   // Resize
   window.addEventListener('resize', handleResize);
 }
+function setFieldsEventListeners() {
+  const inputs = Array.from(document.querySelector('.addModal').querySelectorAll('input'));
+  const textAreas = Array.from(document.querySelector('.addModal').querySelectorAll('textarea'));
+  const fields = inputs.concat(textAreas);
+  fields.forEach(field => {
+    field.addEventListener('input', handeFieldChange);
+  });
+}
+function handeFieldChange() {
+  checkAddModalValidity();
+}
+function checkAddModalValidity() {
+  const inputs = Array.from(document.querySelector('.addModal').querySelectorAll('input'));
+  const textAreas = Array.from(document.querySelector('.addModal').querySelectorAll('textarea'));
+  const fields = inputs.concat(textAreas);
+  let fieldsValid = true;
+  fields.forEach(field => {
+    if (field.value === '') {
+      field.parentElement.querySelector('span').innerText = 'Field must not be blank';
+      fieldsValid = false;
+    } else {
+      field.parentElement.querySelector('span').innerText = '';
+    }
+  });
+  return fieldsValid;
+}
 async function handleAddModalSubmitClick() {
-  const fields = getAddModalFields();
-  console.log(fields);
-  hideAddModal();
+  if (checkAddModalValidity()) {
+    const fields = getAddModalFields();
+    try {
+      const result = await submitNewCheese(fields);
+      console.log(result);
+      if (result) {
+        hideAddModal();
+        clearCheeses();
+        handleApplyClick();
+      } else {
+        console.log('Not added');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    return;
+  }
+}
+async function submitNewCheese(fieldsObj) {
+  const response = await fetch('db_query/add', {
+    method: 'POST',
+    headers: {
+      "fields": JSON.stringify(fieldsObj)
+    }
+  });
+  const result = await response.json();
+  return result.docAdded;
 }
 function getAddModalFields() {
   return {
@@ -229,7 +283,9 @@ function getAddModalFields() {
     description: document.querySelector('#cheeseDescription').value,
     category: document.querySelector('#cheesePrice').value,
     region: document.querySelector('#cheeseRegion').value,
-    weight: document.querySelector('#cheeseWeight').value
+    weight: document.querySelector('#cheeseWeight').value,
+    stock: document.querySelector('#cheeseStock').value,
+    price: document.querySelector('#cheesePrice').value
   };
 }
 async function handleAddClick() {

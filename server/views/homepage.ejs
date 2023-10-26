@@ -69,34 +69,49 @@
 
                 <h2>Add a New Cheese</h2>
 
+                <span class="requiredSpan">All fields are required.</span>
+                <br/>
+
                 <div class="inputWrapper">
                     <label for="cheeseName">Cheese Name</label>
                     <input id="cheeseName" type="text" placeholder="Cheese Name"/>
+                    <span class="validityMsg"></span>
                 </div>
 
                 <div class="inputWrapper"> 
                     <label for="cheeseDescription">Description</label>
                     <textarea id="cheeseDescription"></textarea>
+                    <span class="validityMsg"></span>
                 </div>
 
                 <div class="inputWrapper">
                     <label for="cheeseCategory">Category</label>
                     <input id="cheeseCategory" type="text" placeholder="Category"/>
+                    <span class="validityMsg"></span>
                 </div>
 
                 <div class="inputWrapper">
                     <label for="cheesePrice">Price per unit (in dollars)</label>
                     <input id="cheesePrice" type="number"/>
+                    <span class="validityMsg"></span>
                 </div>
 
                 <div class="inputWrapper">
                     <label for="cheeseRegion">Country of origin</label>
                     <input id="cheeseRegion" type="text" placeholder="Country"/>
+                    <span class="validityMsg"></span>
                 </div>
 
                 <div class="inputWrapper">
                     <label for="cheeseWeight">Weight per unit (oz)</label>
                     <input id="cheeseWeight" type="number"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="cheeseStock">Units in stock</label>
+                    <input id="cheeseStock" type="number"/>
+                    <span class="validityMsg"></span>
                 </div>
 
                 <button id="addModalSubmit">Submit</button>
