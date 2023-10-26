@@ -27,6 +27,23 @@ async function find (req, res) {
 
     const pipeline = [
         {
+            $project: {
+                name: {
+                    $concat: [
+                      { $toUpper: { $substrCP: ["$name", 0, 1] } },
+                      { $substrCP: ["$name", 1, { $subtract: [{ $strLenCP: "$name" }, 1] } ] }
+                    ]
+                },
+                "price": 1,
+                "description": 1,
+                "category": 1,
+                "country_of_origin": 1,
+                "weight": 1,
+                "stock": 1
+            }
+        },
+        {
+            
             $sort: { 
                 [sortBy || 'name']: sortDirection === 'ascending' ? 1 : -1
             } 
