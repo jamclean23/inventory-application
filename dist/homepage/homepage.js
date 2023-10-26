@@ -214,12 +214,30 @@ function addListeners() {
   addBtn.addEventListener('click', handleAddClick);
   const addModalSubmitBtn = document.querySelector('#addModalSubmit');
   addModalSubmitBtn.addEventListener('click', handleAddModalSubmitClick);
+  const addModalCancelBtn = document.querySelector('#addModalCancelBtn');
+  addModalCancelBtn.addEventListener('click', handleAddModalCancelBtnClick);
 
   // Fields
   setFieldsEventListeners();
 
   // Resize
   window.addEventListener('resize', handleResize);
+}
+function handleAddModalCancelBtnClick() {
+  clearAddModal();
+  hideAddModal();
+}
+function clearAddModal() {
+  const fields = getAddModalElements();
+  fields.forEach(field => {
+    field.value = '';
+  });
+}
+function getAddModalElements() {
+  const inputs = Array.from(document.querySelector('.addModal').querySelectorAll('input'));
+  const textAreas = Array.from(document.querySelector('.addModal').querySelectorAll('textarea'));
+  const fields = inputs.concat(textAreas);
+  return fields;
 }
 function setFieldsEventListeners() {
   const inputs = Array.from(document.querySelector('.addModal').querySelectorAll('input'));
@@ -254,6 +272,7 @@ async function handleAddModalSubmitClick() {
       const result = await submitNewCheese(fields);
       console.log(result);
       if (result) {
+        clearAddModal();
         hideAddModal();
         clearCheeses();
         handleApplyClick();
