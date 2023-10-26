@@ -4,6 +4,7 @@
 // ====== IMPORTS ======
 
 const { MongoClient } = require('mongodb');
+const mongodb = require('mongodb');
 
 const mongoose = require('mongoose');
 
@@ -99,13 +100,20 @@ async function add (req, res) {
 async function remove (req, res) {
     const client = new MongoClient(process.env.MONGO_CONNECT);
 
-    try {
+    console.log('REMOVE REQUEST');
+    console.log('ID: ' + req.get("id"));
+    const cheeseId = new mongodb.ObjectId(req.get("id"));
 
+    try {
+        const db = client.db('inventory');
+        const cheeses = db.collection('cheeses');
+        const result = await cheeses.deleteOne({"_id": cheeseId});
+        res.status(200).send({result: true});
     } catch (err) {
-        res.status(400).send();
+        console.log(err);
+        res.status(400).send({result: false});
     } finally {
         client.close();
-        res.status(400).send();
     }
 }
 

@@ -13,6 +13,8 @@ const controller = require('../controllers/dbQueryController.js');
 
 router.get('/find', controller.find);
 router.post('/add', controller.add);
+router.post('/remove', controller.remove);
+
 
 
 // ====== EXPORTS ======

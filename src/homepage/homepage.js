@@ -13,6 +13,7 @@ import xSvg from '../assets/icons/x.svg';
 // ====== STATE ======
 
 let spinning = false;
+let cheeseClicked = '';
 
 
 // ====== MAIN =======
@@ -116,6 +117,7 @@ function createCheeseElements (cheesesObj) {
     cheesesObj.forEach((cheese) => {
         const newCard = document.createElement('article');
         newCard.classList.add('cheeseCard');
+        newCard.meta = {};
 
         const name = document.createElement('h3');
         name.innerText = cheese.name;
@@ -147,6 +149,7 @@ function createCheeseElements (cheesesObj) {
 
         const id = document.createElement('p');
         id.innerText = `Item Id: ${cheese._id}`;
+        newCard.meta.id = cheese._id;
         newCard.appendChild(id);
 
         const buttonsDiv = document.createElement('div');
@@ -166,6 +169,7 @@ function createCheeseElements (cheesesObj) {
         const closeIcon = document.createElement('img');
         closeIcon.src = xSvg;
         closeIcon.classList.add('closeIcon');
+        removeBtn.addEventListener('click', handleRemoveBtnClick);
         removeBtn.appendChild(closeIcon);
         buttonsDiv.appendChild(removeBtn);
 
@@ -212,11 +216,54 @@ function addListeners () {
     const addModalCancelBtn = document.querySelector('#addModalCancelBtn');
     addModalCancelBtn.addEventListener('click', handleAddModalCancelBtnClick);
 
+    const confirmRemoveModalCancelBtn = document.querySelector('#confirmRemoveModalCancelBtn');
+    confirmRemoveModalCancelBtn.addEventListener('click', handleConfirmRemoveModalCanceBtnClick);
+
+    const confirmRemoveModalBtn = document.querySelector('#confirmRemoveBtn');
+    confirmRemoveModalBtn.addEventListener('click', handleConfirmRemoveBtnClick);
+
     // Fields
     setFieldsEventListeners();
 
     // Resize
     window.addEventListener('resize', handleResize);
+}
+
+async function handleConfirmRemoveBtnClick () {
+    const confirmRemoveBtn = document.querySelector('#confirmRemoveBtn');
+    confirmRemoveBtn.disabled = true;
+    try {
+        const response = await fetch('db_query/remove', {
+            method: "POST",
+            headers: {
+                "id": cheeseClicked
+            }
+        });
+
+        const result = await response.json();
+
+        console.log(result);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        hideConfirmRemoveModal();
+        confirmRemoveBtn.disabled = false;
+        clearCheeses();
+        handleApplyClick();
+    }
+}
+
+function handleConfirmRemoveModalCanceBtnClick () {
+    hideConfirmRemoveModal();
+}
+
+function hideConfirmRemoveModal () {
+    const confirmRemoveModal = document.querySelector('.confirmRemoveModal');
+    confirmRemoveModal.style.display = 'none';
+
+    cheeseClicked = '';
+
+    hideModalWrapper();
 }
 
 function handleAddModalCancelBtnClick () {
@@ -384,4 +431,16 @@ function handleResize () {
 
 async function handleLogoutClick () {
     window.location.replace(`${window.location.origin}/login/handleLogoutRequest`);
+}
+
+function handleRemoveBtnClick (event) {
+    cheeseClicked = event.target.parentElement.parentElement.parentElement.meta.id;
+    showConfirmRemoveModal();
+}
+
+function showConfirmRemoveModal () {
+    showModalWrapper();
+
+    const confirmRemoveModal = document.querySelector('.confirmRemoveModal');
+    confirmRemoveModal.style.display = 'flex';
 }
