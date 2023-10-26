@@ -89,24 +89,46 @@ async function updateCheeses() {
   const sortOrder = document.querySelector('#sortOrder');
   const keyword = document.querySelector('#keyword');
   const cheesesObj = await find(category.value, sortOrder.value, keyword.value);
-  createCheeseElements(cheesesObj);
   hideLoading();
+  createCheeseElements(cheesesObj);
 }
 function clearCheeses() {
   const cheesesContent = document.querySelector('.cheesesContent');
   cheesesContent.innerHTML = '';
 }
 function showLoading() {
-  if (spinning) {
-    hideLoading();
-  }
-  spinning = true;
-  const loading = document.createElement('div');
-  loading.classList.add('loadingSpinner');
-  loading.innerText = `Loading`;
-  document.querySelector('.cheesesContent').appendChild(loading);
-  updateSpinner();
+  const cheesesContent = document.querySelector('.cheesesContent');
+  const cheeseWrapper = document.createElement('div');
+  cheeseWrapper.classList.add('cheeseWrapper');
+  cheesesContent.appendChild(cheeseWrapper);
+  const cheeseImg = document.createElement('img');
+  cheeseImg.classList.add('cheeseSpinner');
+  cheeseImg.src = '/assets/images/cheese.png';
+  cheeseWrapper.appendChild(cheeseImg);
+
+  // if (spinning) {
+  //     hideLoading();
+  // }
+
+  // spinning = true;
+  // const loading = document.createElement('div');
+  // loading.classList.add('loadingSpinner');
+  // loading.innerText = `Loading`;
+  // document.querySelector('.cheesesContent').appendChild(loading);
+  // updateSpinner();
 }
+
+function hideLoading() {
+  const cheeseImg = document.querySelector('.cheeseSpinner');
+  cheeseImg.remove();
+
+  // spinning = false;
+  // const loading = document.querySelector('.loadingSpinner');
+  // if (loading) {
+  //     loading.remove();
+  // }
+}
+
 async function updateSpinner(dots = 0) {
   if (!spinning) {
     return;
@@ -128,13 +150,6 @@ async function updateSpinner(dots = 0) {
     return new Promise(resolve => {
       setTimeout(resolve, 500);
     });
-  }
-}
-function hideLoading() {
-  spinning = false;
-  const loading = document.querySelector('.loadingSpinner');
-  if (loading) {
-    loading.remove();
   }
 }
 function createCheeseElements(cheesesObj) {
@@ -177,6 +192,7 @@ function createCheeseElements(cheesesObj) {
     newCard.appendChild(buttonsDiv);
     const editBtn = document.createElement('button');
     editBtn.classList.add('editBtn');
+    editBtn.addEventListener('click', handleEditBtnClick);
     const editIcon = document.createElement('img');
     editIcon.src = edit_namespaceObject;
     editIcon.classList.add('editImg');
@@ -220,16 +236,29 @@ function addListeners() {
   addModalSubmitBtn.addEventListener('click', handleAddModalSubmitClick);
   const addModalCancelBtn = document.querySelector('#addModalCancelBtn');
   addModalCancelBtn.addEventListener('click', handleAddModalCancelBtnClick);
+  const editModalCancelBtn = document.querySelector('#editModalCancelBtn');
+  editModalCancelBtn.addEventListener('click', handleEditCancelBtnClick);
   const confirmRemoveModalCancelBtn = document.querySelector('#confirmRemoveModalCancelBtn');
   confirmRemoveModalCancelBtn.addEventListener('click', handleConfirmRemoveModalCanceBtnClick);
   const confirmRemoveModalBtn = document.querySelector('#confirmRemoveBtn');
   confirmRemoveModalBtn.addEventListener('click', handleConfirmRemoveBtnClick);
+  const editSubmitBtn = document.querySelector('#editModalSubmit');
+  editSubmitBtn.addEventListener('click', handleEditSubmitBtnClick);
 
   // Fields
   setFieldsEventListeners();
 
   // Resize
   window.addEventListener('resize', handleResize);
+}
+function handleEditCancelBtnClick() {
+  hideEditModal();
+}
+function hideEditModal() {
+  cheeseClicked = '';
+  hideModalWrapper();
+  const editModal = document.querySelector('.editModal');
+  editModal.style.display = 'none';
 }
 async function handleConfirmRemoveBtnClick() {
   const confirmRemoveBtn = document.querySelector('#confirmRemoveBtn');
@@ -278,12 +307,30 @@ function getAddModalElements() {
   return fields;
 }
 function setFieldsEventListeners() {
-  const inputs = Array.from(document.querySelector('.addModal').querySelectorAll('input'));
-  const textAreas = Array.from(document.querySelector('.addModal').querySelectorAll('textarea'));
-  const fields = inputs.concat(textAreas);
-  fields.forEach(field => {
+  const addFields = getAddModalElements();
+  addFields.forEach(field => {
     field.addEventListener('input', handeFieldChange);
   });
+  const editFields = getEditModalElements();
+  editFields.forEach(field => {
+    field.addEventListener('input', handleEditFieldChange);
+  });
+}
+function handleEditFieldChange() {
+  checkEditModalValidity();
+}
+function checkEditModalValidity() {
+  const fields = getEditModalElements();
+  let fieldsValid = true;
+  fields.forEach(field => {
+    if (field.value === '') {
+      field.parentElement.querySelector('span').innerText = 'Field must not be blank';
+      fieldsValid = false;
+    } else {
+      field.parentElement.querySelector('span').innerText = '';
+    }
+  });
+  return fieldsValid;
 }
 function handeFieldChange() {
   checkAddModalValidity();
@@ -394,13 +441,95 @@ async function handleLogoutClick() {
   window.location.replace(`${window.location.origin}/login/handleLogoutRequest`);
 }
 function handleRemoveBtnClick(event) {
-  cheeseClicked = event.target.parentElement.parentElement.parentElement.meta.id;
+  updateCheeseClicked(event);
   showConfirmRemoveModal();
+}
+function updateCheeseClicked(event) {
+  cheeseClicked = event.target.parentElement.parentElement.parentElement.meta.id;
 }
 function showConfirmRemoveModal() {
   showModalWrapper();
   const confirmRemoveModal = document.querySelector('.confirmRemoveModal');
   confirmRemoveModal.style.display = 'flex';
+}
+function handleEditBtnClick(event) {
+  updateCheeseClicked(event);
+  showEditModal();
+}
+async function showEditModal() {
+  showModalWrapper();
+  const inputElements = getEditModalElements();
+  const response = await fetch('db_query/find_by_id', {
+    method: "GET",
+    headers: {
+      "id": cheeseClicked
+    }
+  });
+  const result = await response.json();
+  const cheese = result.result;
+  inputElements.forEach(field => {
+    switch (field.id) {
+      case 'editCheeseName':
+        field.value = cheese.name;
+        break;
+      case 'editCheeseCategory':
+        field.value = cheese.category;
+        break;
+      case 'editCheesePrice':
+        field.value = cheese.price;
+        break;
+      case 'editCheeseRegion':
+        field.value = cheese['country_of_origin'];
+        break;
+      case 'editCheeseWeight':
+        field.value = cheese.weight;
+        break;
+      case 'editCheeseStock':
+        field.value = cheese.stock;
+        break;
+      case 'editCheeseDescription':
+        field.value = cheese.description;
+        break;
+    }
+  });
+  checkEditModalValidity();
+  const editModal = document.querySelector('.editModal');
+  editModal.style.display = 'inline';
+}
+function getEditModalElements() {
+  const inputs = Array.from(document.querySelector('.editModal').querySelectorAll('input'));
+  const textAreas = Array.from(document.querySelector('.editModal').querySelectorAll('textarea'));
+  const fields = inputs.concat(textAreas);
+  return fields;
+}
+async function handleEditSubmitBtnClick() {
+  const fields = getEditModalFields();
+  const response = await fetch('db_query/update', {
+    method: "POST",
+    headers: {
+      "fields": JSON.stringify(fields),
+      "id": cheeseClicked
+    }
+  });
+  const result = await response.json();
+  if (result.result) {
+    clearCheeses();
+    handleApplyClick();
+    hideEditModal();
+  } else {
+    console.log('Not Updated');
+  }
+}
+function getEditModalFields() {
+  return {
+    name: document.querySelector('#editCheeseName').value,
+    description: document.querySelector('#editCheeseDescription').value,
+    category: document.querySelector('#editCheesePrice').value,
+    region: document.querySelector('#editCheeseRegion').value,
+    weight: document.querySelector('#editCheeseWeight').value,
+    stock: document.querySelector('#editCheeseStock').value,
+    price: document.querySelector('#editCheesePrice').value
+  };
 }
 /******/ })()
 ;

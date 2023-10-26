@@ -14,6 +14,8 @@ const controller = require('../controllers/dbQueryController.js');
 router.get('/find', controller.find);
 router.post('/add', controller.add);
 router.post('/remove', controller.remove);
+router.get('/find_by_id', controller.findById);
+router.post('/update', controller.update);
 
 
 

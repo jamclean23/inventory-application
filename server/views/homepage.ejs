@@ -74,8 +74,8 @@
             </div>
         </div>
 
-        <div class="addModal">
-            <form id="modalForm" onsubmit="return false">
+        <div class="addModal modal">
+            <form id="addModalForm" class="modalForm" onsubmit="return false">
 
                 <h2>Add a New Cheese</h2>
 
@@ -90,7 +90,7 @@
 
                 <div class="inputWrapper"> 
                     <label for="cheeseDescription">Description</label>
-                    <textarea id="cheeseDescription"></textarea>
+                    <textarea class="cheeseDescription" id="cheeseDescription"></textarea>
                     <span class="validityMsg"></span>
                 </div>
 
@@ -126,7 +126,62 @@
 
                 <button id="addModalSubmit">Submit</button>
             </form>
-            <button id="addModalCancelBtn"><img src="assets/images/x.svg"/></button>
+            <button id="addModalCancelBtn" class="modalCancelBtn"><img src="assets/images/x.svg"/></button>
+        </div>
+
+        <div class="editModal modal">
+            <form id="editModalForm" class="modalForm" onsubmit="return false">
+
+                <h2>Edit Cheese Information</h2>
+
+                <span class="requiredSpan">All fields are required.</span>
+                <br/>
+
+                <div class="inputWrapper">
+                    <label for="editCheeseName">Cheese Name</label>
+                    <input id="editCheeseName" type="text" placeholder="Cheese Name"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper"> 
+                    <label for="editCheeseDescription">Description</label>
+                    <textarea class="cheeseDescription" id="editCheeseDescription"></textarea>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="editCheeseCategory">Category</label>
+                    <input id="editCheeseCategory" type="text" placeholder="Category"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="editCheesePrice">Price per unit (in dollars)</label>
+                    <input id="editCheesePrice" type="number"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="editCheeseRegion">Country of origin</label>
+                    <input id="editCheeseRegion" type="text" placeholder="Country"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="editCheeseWeight">Weight per unit (oz)</label>
+                    <input id="editCheeseWeight" type="number"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <div class="inputWrapper">
+                    <label for="editCheeseStock">Units in stock</label>
+                    <input id="editCheeseStock" type="number"/>
+                    <span class="validityMsg"></span>
+                </div>
+
+                <button id="editModalSubmit">Submit</button>
+            </form>
+            <button id="editModalCancelBtn" class="modalCancelBtn"><img src="assets/images/x.svg"/></button>
         </div>
     </div>
 </body>

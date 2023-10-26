@@ -82,6 +82,26 @@ async function find (req, res) {
     }
 }
 
+async function findById (req, res) {
+    const client = new MongoClient(process.env.MONGO_CONNECT);
+
+    console.log('REMOVE REQUEST');
+    console.log('ID: ' + req.get("id"));
+    const cheeseId = new mongodb.ObjectId(req.get("id"));
+
+    try {
+        const db = client.db('inventory');
+        const cheeses = db.collection('cheeses');
+        const result = await cheeses.findOne({"_id": cheeseId});
+        res.status(200).send({result: result});
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({result: false});
+    } finally {
+        client.close();
+    }
+}
+
 async function add (req, res) {
     const cheese = JSON.parse(req.get('fields'));
 
@@ -135,15 +155,39 @@ async function remove (req, res) {
 }
 
 async function update (req, res) {
+    console.log('UPDATE');
     const client = new MongoClient(process.env.MONGO_CONNECT);
 
-    try {
+    const cheeseId = new mongodb.ObjectId(req.get("id"));
+    const fields = JSON.parse(req.get("fields"));
 
+    try {
+        const db = client.db('inventory');
+        const cheeses = db.collection('cheeses');
+        await cheeses.updateOne(
+            {
+                "_id": cheeseId
+            }, 
+            {
+                $set: {
+                    "name": fields.name,
+                    "description": fields.description,
+                    "category": fields.category,
+                    "country_of_origin": fields.region,
+                    "weight": fields.weight,
+                    "stock": fields.stock,
+                    "price": fields.price
+                }
+        },
+        {
+            upsert: false
+        });
+        res.status(200).send({result: true});
     } catch (err) {
+        console.log(err);
         res.status(400).send();
     } finally {
         client.close();
-        res.status(400).send();
     }
 }
 
@@ -152,6 +196,7 @@ async function update (req, res) {
 
 module.exports = {
     find,
+    findById,
     add,
     remove,
     update
